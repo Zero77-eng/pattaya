@@ -2,7 +2,7 @@
    ・画面のファイル(アプリの殻)は最初に保存し、次からは保存分を先に出して裏で更新する
    ・写真は保存分を先に出す(写真の名前は中身で決まるので、同じ名前なら同じ写真)
    ・データ(data/)は、この裏方では触らない(アプリ本体が管理する)。有料データ(data/paid)は読まない */
-var SHELL = "pt-shell-v23";
+var SHELL = "pt-shell-v24";
 var PHOTOS = "pt-photos";
 var FILES = ["./", "index.html", "style.css", "app.js", "schedule.js", "packing.js", "manifest.webmanifest", "icons/icon-192.png", "icons/icon-512.png", "icons/apple-touch-icon.png"];
 
@@ -14,7 +14,7 @@ self.addEventListener("install", function (e) {
 
 self.addEventListener("activate", function (e) {
   e.waitUntil(caches.keys().then(function (keys) {
-    return Promise.all(keys.filter(function (k) { return k !== SHELL && k !== PHOTOS && k !== "pt-video"; }).map(function (k) { return caches.delete(k); }));
+    return Promise.all(keys.filter(function (k) { return k !== SHELL && k !== PHOTOS && k !== "pt-video" && k.indexOf("ptm-") !== 0; }).map(function (k) { return caches.delete(k); }));
   }).then(function () { return self.clients.claim(); }));
 });
 
