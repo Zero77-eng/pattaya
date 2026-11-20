@@ -1,4 +1,4 @@
-var V="ptm-v1";
+var V="ptm-v2";
 var FILES=["./","index.html","memo.js","memo.css","manifest.webmanifest","icons/icon-192.png","icons/icon-512.png","icons/apple-touch-icon.png"];
 self.addEventListener("install",function(e){
   e.waitUntil(caches.open(V).then(function(c){return c.addAll(FILES)}).then(function(){return self.skipWaiting()}));

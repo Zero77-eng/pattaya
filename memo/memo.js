@@ -121,9 +121,10 @@
     var n = cur, h = "";
     h += '<div class="chips">' + KINDS.map(function (k) { return '<button class="chip' + (n.kind === k[0] ? " on" : "") + '" data-a="kind" data-v="' + k[0] + '">' + k[1] + " " + k[2] + "</button>"; }).join("") + "</div>";
     h += '<label class="f">名前</label><input type="text" data-f="name" value="' + esc(n.name) + '" placeholder="お店・場所・体験の名前">';
-    h += '<label class="f">写真<small>' + jp("撮った写真は、¦スマホの写真にも残ります") + '</small></label>';
+    h += '<label class="f">写真<small>' + jp("写真アプリへは、¦下の「保存」ボタンで入れます") + '</small></label>';
     h += '<div class="row2"><label class="btn" style="text-align:center">📷 撮る<input type="file" accept="image/*" capture="environment" id="cam" hidden></label><label class="btn sub" style="text-align:center">🖼 選ぶ<input type="file" accept="image/*" multiple id="pick" hidden></label></div>';
     h += '<div class="photos">' + (n.photos || []).map(function (b, i) { return '<div class="ph"><img src="' + thumbUrl(b) + '" alt=""><button data-a="rmph" data-i="' + i + '" aria-label="写真を消す">×</button></div>'; }).join("") + "</div>";
+    if (n.photos && n.photos.length) h += '<div class="foot" style="margin-top:10px"><button class="btn sub" data-a="savephotos">💾 写真アプリに保存</button></div><p class="hint">' + jp("押すと、¦「画像を保存」などが出ます。¦保存される写真は、¦アプリ用に小さくした版です。¦大事な写真は、¦ふつうのカメラで撮って、¦「選ぶ」から入れてください。") + "</p>";
     h += '<label class="f">場所</label>';
     h += '<div class="row2"><button class="btn" data-a="loc">📍 現在地を記録</button><button class="btn sub" data-a="maps">🗺 マップで選ぶ</button></div>';
     h += '<div class="loc" id="locst">' + locText(n) + "</div>";
@@ -263,6 +264,15 @@
     } else if (a === "kind") { cur.kind = v; persist(true).then(function () { document.querySelectorAll('[data-a="kind"]').forEach(function (b) { b.classList.toggle("on", b.getAttribute("data-v") === v); }); }); }
     else if (a === "star") { var s = +v; cur.rating = cur.rating === s ? 0 : s; persist(true).then(function () { document.querySelectorAll('[data-a="star"]').forEach(function (b) { b.classList.toggle("on", cur.rating >= +b.getAttribute("data-v")); }); }); }
     else if (a === "rmph") { cur.photos.splice(+el.getAttribute("data-i"), 1); persist(true).then(function () { freeUrls(); drawEdit(); }); }
+    else if (a === "savephotos") {
+      var fs = (cur.photos || []).map(function (b, i) { return new File([b], "取材メモ-" + fmt(cur.created).replace(/[\/: ]/g, "") + "-" + (i + 1) + ".jpg", { type: "image/jpeg" }); });
+      if (navigator.canShare && navigator.canShare({ files: fs })) {
+        navigator.share({ files: fs }).catch(function () {});
+      } else {
+        fs.forEach(function (f) { var a2 = document.createElement("a"); a2.href = URL.createObjectURL(f); a2.download = f.name; document.body.appendChild(a2); a2.click(); a2.remove(); });
+        toast("ダウンロードに保存しました");
+      }
+    }
     else if (a === "loc") { setLoc(); }
     else if (a === "maps") {
       var u = cur && cur.lat ? "https://www.google.com/maps/search/?api=1&query=" + cur.lat + "," + cur.lng : "https://www.google.com/maps";
