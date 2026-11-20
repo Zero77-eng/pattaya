@@ -1,0 +1,200 @@
+[
+ {
+  "id": "flight",
+  "stage": "準備",
+  "name": "航空券",
+  "desc": "福岡発などの探し方、おすすめの時期",
+  "locked": false,
+  "hidden": false,
+  "short": "探し方・おすすめ時期"
+ },
+ {
+  "id": "hotel",
+  "stage": "準備",
+  "name": "ホテル",
+  "desc": "エリア別の選び方、おすすめ宿",
+  "locked": false,
+  "hidden": false,
+  "short": "エリア別の選び方"
+ },
+ {
+  "id": "packing",
+  "stage": "準備",
+  "name": "持ち物",
+  "desc": "持っていくもの、あると便利なもの",
+  "locked": false,
+  "hidden": false,
+  "short": "あると便利なもの"
+ },
+ {
+  "id": "sim",
+  "stage": "準備",
+  "name": "SIM",
+  "desc": "eSIMの選び方、設定手順",
+  "locked": false,
+  "hidden": false,
+  "short": "eSIMの選び方"
+ },
+ {
+  "id": "immigration",
+  "stage": "準備",
+  "name": "入国・出国",
+  "desc": "デジタル入国カード(TDAC)の登録手順、帰りの空港の流れ",
+  "locked": false,
+  "hidden": false,
+  "short": "TDAC・出入国"
+ },
+ {
+  "id": "schedule",
+  "stage": "準備",
+  "name": "スケジュール管理",
+  "desc": "旅程・費用の管理",
+  "locked": false,
+  "hidden": false,
+  "short": "旅程と費用"
+ },
+ {
+  "id": "airport",
+  "stage": "移動",
+  "name": "空港↔パタヤ",
+  "desc": "バス、タクシー、送迎の比較と手順",
+  "locked": false,
+  "hidden": false,
+  "short": "バス・タクシー比較"
+ },
+ {
+  "id": "songthaew",
+  "stage": "移動",
+  "name": "ソンテウ",
+  "desc": "乗り方、ルート、料金",
+  "locked": false,
+  "hidden": false,
+  "short": "乗り方と料金"
+ },
+ {
+  "id": "ride",
+  "stage": "移動",
+  "name": "配車アプリ",
+  "desc": "Grab・Boltの使い方",
+  "locked": false,
+  "hidden": false,
+  "short": "Grab・Bolt"
+ },
+ {
+  "id": "money",
+  "stage": "現地",
+  "name": "お金",
+  "desc": "両替所、レートの目安、ATM手数料、カード",
+  "locked": false,
+  "hidden": false,
+  "short": "両替・ATM・カード"
+ },
+ {
+  "id": "sightseeing",
+  "stage": "現地",
+  "name": "観光",
+  "desc": "観光地、ツアー",
+  "locked": false,
+  "hidden": false,
+  "short": "観光地・ツアー"
+ },
+ {
+  "id": "food",
+  "stage": "現地",
+  "name": "食事",
+  "desc": "エリア別の店、おすすめ料理",
+  "locked": false,
+  "hidden": false,
+  "short": "エリア別のお店"
+ },
+ {
+  "id": "massage",
+  "stage": "現地",
+  "name": "マッサージ",
+  "desc": "店の選び方、相場",
+  "locked": false,
+  "hidden": false,
+  "short": "相場と選び方"
+ },
+ {
+  "id": "prices",
+  "stage": "現地",
+  "name": "物価・相場表",
+  "desc": "ビール、タクシー、マッサージなどの目安",
+  "locked": false,
+  "hidden": false,
+  "short": "ビール・タクシー等"
+ },
+ {
+  "id": "thai",
+  "stage": "現地",
+  "name": "タイ語フレーズ",
+  "desc": "現地で使う短いフレーズ",
+  "locked": false,
+  "hidden": false,
+  "short": "現地で使う一言"
+ },
+ {
+  "id": "about",
+  "stage": "知識",
+  "name": "パタヤの基本情報",
+  "desc": "人口、地域の名前、生い立ち",
+  "locked": false,
+  "hidden": false,
+  "short": "地域と生い立ち"
+ },
+ {
+  "id": "caution",
+  "stage": "安全",
+  "name": "注意事項",
+  "desc": "ひったくり、ぼったくりなど",
+  "locked": false,
+  "hidden": false,
+  "short": "ひったくり・詐欺"
+ },
+ {
+  "id": "law",
+  "stage": "安全",
+  "name": "法律・ルールと緊急時",
+  "desc": "電子タバコ禁止、禁酒時間、ツーリストポリス(1155)、大使館、病院",
+  "locked": false,
+  "hidden": false,
+  "short": "禁止事項・緊急連絡"
+ },
+ {
+  "id": "pr",
+  "stage": "その他",
+  "name": "PR",
+  "desc": "現地の人のお店の紹介(PRと明記)",
+  "locked": false,
+  "hidden": false,
+  "short": "お店の紹介(PR)"
+ },
+ {
+  "id": "news",
+  "stage": "その他",
+  "name": "お知らせ",
+  "desc": "YouTube新着動画、アプリの更新内容",
+  "locked": false,
+  "hidden": false,
+  "short": "新着・更新情報"
+ },
+ {
+  "id": "night",
+  "stage": "夜",
+  "name": "夜情報",
+  "desc": "メンバー限定：ウォーキングストリート最新情報",
+  "locked": false,
+  "hidden": false,
+  "short": "メンバー限定"
+ },
+ {
+  "id": "owner",
+  "stage": "TOP",
+  "name": "運営者より",
+  "desc": "TOPページに出す、運営者からの紹介",
+  "locked": false,
+  "hidden": true,
+  "short": ""
+ }
+]

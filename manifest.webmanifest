@@ -1,0 +1,15 @@
+{
+  "name": "パタヤ攻略",
+  "short_name": "パタヤ攻略",
+  "description": "パタヤ旅行の準備から現地までまとめたオフライン対応ガイド",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#16324f",
+  "theme_color": "#16324f",
+  "lang": "ja",
+  "icons": [
+    {"src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable"},
+    {"src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable"}
+  ]
+}
