@@ -2,7 +2,7 @@
    ・画面のファイル(アプリの殻)は最初に保存し、次からは保存分を先に出して裏で更新する
    ・写真は保存分を先に出す(写真の名前は中身で決まるので、同じ名前なら同じ写真)
    ・データ(data/)は、この裏方では触らない(アプリ本体が管理する)。有料データ(data/paid)は読まない */
-var SHELL = "pt-shell-v24";
+var SHELL = "pt-shell-v25";
 var PHOTOS = "pt-photos";
 var FILES = ["./", "index.html", "style.css", "app.js", "schedule.js", "packing.js", "manifest.webmanifest", "icons/icon-192.png", "icons/icon-512.png", "icons/apple-touch-icon.png"];
 
@@ -24,6 +24,7 @@ self.addEventListener("fetch", function (e) {
   var url = new URL(req.url);
   if (url.origin !== location.origin) return;
   if (url.pathname.indexOf("/data/") !== -1) return;
+  if (url.pathname.indexOf("/memo/") !== -1) return; /* 取材メモは別のアプリ。ここでは触らない */
 
   if (url.pathname.indexOf("/video/") !== -1) {
     /* 保存した動画は、途中から再生できる形(Range)で返す。未保存ならそのままネットから */
