@@ -121,7 +121,7 @@
     var n = cur, h = "";
     h += '<div class="chips">' + KINDS.map(function (k) { return '<button class="chip' + (n.kind === k[0] ? " on" : "") + '" data-a="kind" data-v="' + k[0] + '">' + k[1] + " " + k[2] + "</button>"; }).join("") + "</div>";
     h += '<label class="f">名前</label><input type="text" data-f="name" value="' + esc(n.name) + '" placeholder="お店・場所・体験の名前">';
-    h += '<label class="f">写真<small>' + jp("写真アプリへは、¦下の「保存」ボタンで入れます") + '</small></label>';
+    h += '<label class="f">写真<small>' + jp("撮ると、¦写真アプリへの保存画面も出ます") + '</small></label>';
     h += '<div class="row2"><label class="btn" style="text-align:center">📷 撮る<input type="file" accept="image/*" capture="environment" id="cam" hidden></label><label class="btn sub" style="text-align:center">🖼 選ぶ<input type="file" accept="image/*" multiple id="pick" hidden></label></div>';
     h += '<div class="photos">' + (n.photos || []).map(function (b, i) { return '<div class="ph"><img src="' + thumbUrl(b) + '" alt=""><button data-a="rmph" data-i="' + i + '" aria-label="写真を消す">×</button></div>'; }).join("") + "</div>";
     if (n.photos && n.photos.length) h += '<div class="foot" style="margin-top:10px"><button class="btn sub" data-a="savephotos">💾 写真アプリに保存</button></div><p class="hint">' + jp("押すと、¦「画像を保存」などが出ます。¦保存される写真は、¦アプリ用に小さくした版です。¦大事な写真は、¦ふつうのカメラで撮って、¦「選ぶ」から入れてください。") + "</p>";
@@ -165,6 +165,7 @@
     h += '<label class="f">合言葉(数字)</label><input type="text" id="s_pin" inputmode="numeric" value="' + esc(SET.pin) + '" placeholder="4けたの数字">';
     h += '<div class="foot"><button class="btn" data-a="saveset">保存</button><button class="btn sub" data-a="testpc">PCとつなぐ</button></div>';
     h += '<p class="hint">' + jp("「PCとつなぐ」で、¦PCの画面が開けば成功です。¦つながらないときは、¦スマホとPCが同じWi-Fiか、¦PCの受信が「入」に¦なっているか確認してください。") + "</p></div>";
+    h += '<div class="card"><b>写真アプリへの保存</b><p class="hint" style="margin-top:4px">' + jp("「撮る」で撮ったあと、¦写真アプリに保存する画面を、¦自動で出します。") + '</p><div class="foot"><button class="chip' + (SET.autosave !== false ? " on" : "") + '" data-a="autosave">' + (SET.autosave !== false ? "自動で出す(入)" : "自動で出す(切)") + "</button></div></div>";
     h += '<div class="card"><b>送るときの確認画面について</b><p class="hint" style="margin-top:4px">' + jp("スマホによっては、¦送る直前に¦「安全ではない」という確認が出ます。¦自分のPCに送るだけなので、¦「送信する」(または「続行」)を¦押してください。") + '</p></div>';
     $("#app").innerHTML = h;
   }
@@ -273,6 +274,7 @@
         toast("ダウンロードに保存しました");
       }
     }
+    else if (a === "autosave") { SET.autosave = SET.autosave === false; saveSet(); viewSettings(); }
     else if (a === "loc") { setLoc(); }
     else if (a === "maps") {
       var u = cur && cur.lat ? "https://www.google.com/maps/search/?api=1&query=" + cur.lat + "," + cur.lng : "https://www.google.com/maps";
@@ -295,9 +297,35 @@
     }
     persist(false);
   });
+  var pendingShare = null;
+  function hideSaveBar() { var b = $("#savebar"); if (b) b.hidden = true; pendingShare = null; }
+  function showSaveBar(files) {
+    pendingShare = files;
+    var b = $("#savebar"); b.hidden = false;
+  }
+  function shareOrig(files) {
+    if (!(navigator.canShare && navigator.share && navigator.canShare({ files: files }))) return false;
+    navigator.share({ files: files }).then(hideSaveBar, function (er) {
+      if (er && er.name === "AbortError") return hideSaveBar();   /* 自分でやめた */
+      showSaveBar(files);                                         /* 自動では出せなかった → ボタンを残す */
+    });
+    return true;
+  }
   document.addEventListener("change", function (e) {
-    if (e.target.id === "cam" || e.target.id === "pick") { addPhotos(e.target.files); e.target.value = ""; }
+    if (e.target.id === "cam" || e.target.id === "pick") {
+      var fl = Array.prototype.slice.call(e.target.files || []);
+      if (e.target.id === "cam" && fl.length && SET.autosave !== false) {
+        var named = fl.map(function (f, i) { return new File([f], "取材メモ-" + Date.now() + "-" + (i + 1) + ".jpg", { type: f.type || "image/jpeg" }); });
+        shareOrig(named);
+      }
+      addPhotos(e.target.files); e.target.value = "";
+    }
   });
+  $("#savebtn").onclick = function () {
+    var fs = pendingShare; if (!fs) return;
+    navigator.share({ files: fs }).then(hideSaveBar, function (er) { if (er && er.name === "AbortError") hideSaveBar(); });
+  };
+  $("#saveno").onclick = hideSaveBar;
   $("#back").onclick = function () {
     if (cur) leaveEdit().then(function () { location.hash = "#/"; }); else location.hash = "#/";
   };
